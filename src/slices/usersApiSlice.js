@@ -15,6 +15,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/getBulk/${data.centerId}`,
         method: 'GET',
       }),
+    }),
+    ChangePassword :builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/changePassword`,
+        method: 'POST',
+        body: data,
+      }),
     })
     
   }),
@@ -22,6 +29,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useCreateBulkMutation,
-  useViewBulkMutation
+  useViewBulkMutation,
+  useChangePasswordMutation
 
 } = usersApiSlice;

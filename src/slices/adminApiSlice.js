@@ -124,6 +124,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: 'GET'
       }),
     }),
+    fetchPopUp :builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/extrapop`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    })
   }),
 });
 
@@ -141,5 +150,6 @@ export const {
   useFetchOnlineApplicationMutation,
   useCreateOnlineApplicationMutation,
   useCreateStudentMutation,
-  useFetchStudentByCenterMutation
+  useFetchStudentByCenterMutation,
+  useFetchPopUpMutation
 } = userApiSlice;

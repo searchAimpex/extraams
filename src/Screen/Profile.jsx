@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useFetchCenterDetailsFromUserMutation } from '../slices/adminApiSlice';
+import { useChangePasswordMutation } from '../slices/usersApiSlice';
+import { logout } from '../slices/authSlice';  // Assuming you have a logout action
+import { useLogoutMutation } from '../slices/userApiSlice';
 
 export default function Profile() {
     const { center } = useSelector(state => state.auth.userInfo);
     const [centerDetails, setCenterDetails] = useState(null);
+    const [newPassword, setNewPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [fetchCenterDetailsFromUser] = useFetchCenterDetailsFromUserMutation();
+    const [changePassword,{isSuccess}] = useChangePasswordMutation();
+    const [logoutApi] = useLogoutMutation();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchCenterDetails = async () => {
@@ -19,6 +28,23 @@ export default function Profile() {
 
         if (center) fetchCenterDetails();
     }, [center, fetchCenterDetailsFromUser]);
+
+    const handlePasswordChange = async () => {
+        if (!newPassword) {
+            setPasswordError('Please enter a new password');
+            return;
+        }
+
+        try {
+            // Call the change password mutation
+            await changePassword({ centerId: center, newPassword }).unwrap();
+            await logoutApi();
+        dispatch(logout());
+        } catch (error) {
+            console.error('Error changing password:', error);
+            setPasswordError('Failed to change password. Please try again.');
+        }
+    };
 
     if (!centerDetails) {
         return <div>Loading...</div>;
@@ -88,18 +114,23 @@ export default function Profile() {
                 </div>
             </div>
 
-            {/* Visiting Card Section */}
+            {/* Change Password Section */}
             <div className="mt-8 bg-white shadow-lg p-4 rounded-lg">
-                <h3 className="text-xl font-semibold mb-4">Visiting Card</h3>
-                <div className="relative group w-full max-w-xs mx-auto overflow-hidden rounded-lg shadow-lg">
-                    <img
-                        src={VistOffice}
-                        alt="Visiting Card"
-                        className="w-full h-48 object-cover transform transition-transform group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black opacity-50 group-hover:opacity-0 transition-opacity"></div>
-                    <p className="absolute inset-x-0 bottom-4 text-center text-white font-semibold">{InstitutionName}</p>
-                </div>
+                <h3 className="text-xl font-semibold mb-4">Change Password</h3>
+                <input
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    className="border p-2 rounded w-full mb-4"
+                />
+                {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+                <button
+                    onClick={handlePasswordChange}
+                    className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition"
+                >
+                    Change Password
+                </button>
             </div>
 
             {/* Contact Buttons */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { 
   LogOut, Home, User, Settings, ChevronDown, ChevronUp, Menu, 
@@ -8,13 +8,19 @@ import {
 import { useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/userApiSlice';
 import { logout } from '../slices/authSlice';
+import { useFetchPopUpMutation } from '../slices/adminApiSlice';
 
 export default function PrivateLayout() {
   const navigate = useNavigate();
   const [submenuOpen, setSubmenuOpen] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [logoutApi] = useLogoutMutation();
+  const [FetchPopUp] = useFetchPopUpMutation();
   const dispatch = useDispatch();
+
+  // State to manage the popup visibility and message
+  const [popupMessages, setPopupMessages] = useState([]);
+  const [currentPopupIndex, setCurrentPopupIndex] = useState(0);
 
   const handleSignOut = async () => {
     try {
@@ -25,6 +31,18 @@ export default function PrivateLayout() {
       console.error("Logout error:", error);
     }
   };
+
+  useEffect(() => {
+    // Fetch popup data
+    const fetchPopUpData = async () => {
+      const response = await FetchPopUp();
+      if (response?.data) {
+        setPopupMessages(response.data);  // Assuming response.data is an array of popup messages
+      }
+    };
+
+    fetchPopUpData();
+  }, [FetchPopUp]);
 
   const menuItems = [
     { label: 'Dashboard', icon: Home, path: '/user/dashboard', subMenu: [] },
@@ -64,6 +82,16 @@ export default function PrivateLayout() {
 
   const toggleSubmenu = (index) => {
     setSubmenuOpen(submenuOpen === index ? null : index);
+  };
+
+  const handleNextPopup = () => {
+    if (currentPopupIndex < popupMessages.length - 1) {
+      setCurrentPopupIndex(currentPopupIndex + 1);
+    }
+  };
+
+  const handleClosePopup = () => {
+    setPopupMessages([]);  // Clear messages after closing
   };
 
   return (
@@ -116,18 +144,6 @@ export default function PrivateLayout() {
               </li>
             ))}
           </ul>
-          {sidebarOpen && (
-            <div className="mt-8 p-4 bg-gradient-to-r from-teal-400 to-teal-500 rounded-xl text-white">
-              <div className="flex items-center justify-center w-12 h-12 bg-white rounded-lg mb-4">
-                <HelpCircle className="text-teal-500" size={24} />
-              </div>
-              <h4 className="font-semibold mb-2">Need help?</h4>
-              <p className="text-sm opacity-90">Please check our docs</p>
-              <button className="mt-4 w-full py-2 px-4 bg-white text-teal-500 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-                Documentation
-              </button>
-            </div>
-          )}
         </nav>
       </div>
 
@@ -142,10 +158,8 @@ export default function PrivateLayout() {
               <Menu size={20} />
             </button>
             <div className='flex flex-row space-x-5'>
-              <button onClick={()=>{
-                navigate('/user/profile')
-              }}>
-                  <User2Icon size = {20} />
+              <button onClick={() => navigate('/user/profile')}>
+                <User2Icon size={20} />
               </button>
               <button onClick={handleSignOut} className="p-2 rounded-lg hover:bg-gray-100">
                 <PowerOff size={20} />
@@ -157,6 +171,32 @@ export default function PrivateLayout() {
           <Outlet />
         </main>
       </div>
+
+      {/* Popup Modal */}
+      {popupMessages.length > 0 && currentPopupIndex < popupMessages.length && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
+            <div
+              className="text-gray-600"
+              dangerouslySetInnerHTML={{ __html: popupMessages[currentPopupIndex].message }}
+            />
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={handleNextPopup}
+                className="px-4 py-2 bg-teal-500 text-white rounded-lg"
+              >
+                Next
+              </button>
+              <button
+                onClick={handleClosePopup}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
