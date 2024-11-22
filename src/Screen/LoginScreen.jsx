@@ -17,7 +17,7 @@ export default function LoginScreen() {
         toast.success("Login success!")
         navigate('/user/dashboard')
     }
-    if(userInfo.userType !== 'frenchise'){
+    if(userInfo?.userType !== 'frenchise'){
       toast.error("Unautherize access")
     }
   }, [navigate, isSuccess]);
