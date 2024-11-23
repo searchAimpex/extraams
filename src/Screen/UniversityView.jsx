@@ -35,8 +35,8 @@ export default function UniversityView() {
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {isSuccess && universities.AssignUniversity.length > 0 ? (
-            universities.AssignUniversity.map((university, index) => (
+          {isSuccess && universities?.AssignUniversity?.length > 0 ? (
+            universities?.AssignUniversity?.map((university, index) => (
               <motion.div
                 key={university.id}
                 className="border border-gray-200 rounded-lg shadow-xl overflow-hidden bg-white hover:shadow-2xl transform transition duration-300 hover:-translate-y-2"
@@ -48,17 +48,17 @@ export default function UniversityView() {
               >
                 <div className="h-32 overflow-hidden flex items-center justify-center relative group">
                   <img
-                    src={university.university.UniLogo || 'https://via.placeholder.com/150'}
-                    alt={university.university.univserityShortName}
+                    src={university?.university?.UniLogo || 'https://via.placeholder.com/150'}
+                    alt={university?.university?.univserityShortName}
                     className="w-full h-[120px] object-contained group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-2 text-center">
                   <h2 className="text-lg font-bold text-gray-800">
-                    {university.university.univserityShortName}
+                    {university?.university?.univserityShortName}
                   </h2>
                   <p className="text-sm text-gray-500">
-                    {university.university.vertical || 'Category not available'}
+                    {university?.university?.vertical || 'Category not available'}
                   </p>
                 </div>
               </motion.div>
@@ -78,8 +78,8 @@ export default function UniversityView() {
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {isSuccess && universities.RequestUniversity.length > 0 ? (
-            universities.RequestUniversity.map((university, index) => (
+          {isSuccess && universities?.RequestUniversity?.length > 0 ? (
+            universities?.RequestUniversity?.map((university, index) => (
               <motion.div
                 key={university.id}
                 className="border border-gray-200 rounded-lg shadow-xl overflow-hidden bg-white hover:shadow-2xl transform transition duration-300 hover:-translate-y-2"
@@ -91,24 +91,24 @@ export default function UniversityView() {
               >
                 <div className="h-32 overflow-hidden flex items-center justify-center relative group">
                   <img
-                    src={university.university.UniLogo || 'https://via.placeholder.com/150'}
-                    alt={university.university.univserityShortName}
+                    src={university?.university?.UniLogo || 'https://via.placeholder.com/150'}
+                    alt={university?.university?.univserityShortName}
                     className="w-[120px] h-[120px] object-contained group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-2 text-center">
                   <h2 className="text-lg font-bold text-gray-800">
-                    {university.university.univserityShortName}
+                    {university?.university?.univserityShortName}
                   </h2>
                   <p className="text-sm text-gray-500">
-                    {university.university.vertical || 'Category not available'}
+                    {university?.university?.vertical || 'Category not available'}
                   </p>
                   {/* Send Request Button */}
                   <button
                     className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition-colors"
                     onClick={() => {
                       // You can handle the request logic here, like making an API call
-                      alert(`Request sent for ${university.university.univserityShortName}`);
+                      alert(`Request sent for ${university?.university?.univserityShortName}`);
                     }}
                   >
                     Send Request

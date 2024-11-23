@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { 
   Wallet, 
@@ -8,6 +8,8 @@ import {
   ArrowRight, 
   Zap 
 } from 'lucide-react';
+import { useFetchCenterDetailsFromUserMutation, useFetchLeadsMutation } from '../slices/adminApiSlice';
+import { useSelector } from 'react-redux';
 
 const salesData = [
   { name: 'Jan', value1: 50, value2: 20 },
@@ -23,35 +25,62 @@ const salesData = [
 
 const barData = [300, 200, 100, 250, 400, 300, 220, 100, 380];
 
+
 const Dashboard = () => {
+  const { center } = useSelector((state) => state.auth.userInfo);
+  const [fetchCenterDetailsFromUser] = useFetchCenterDetailsFromUserMutation()
+    const [universities,setUniversities] = useState()
+    const [requestUniversity,setRequestUniversity] = useState()
+    const [FetchLeads] = useFetchLeadsMutation();
+    const [leads, setLeads] = useState([]);
+    useEffect(() => {
+      const fetchDetails = async () => {
+        try {
+          const response = await fetchCenterDetailsFromUser(center);
+          const leadresponse = await FetchLeads(center);
+
+          if (response?.data) {
+            setUniversities(response.data?.AssignUniversity || []);
+            setRequestUniversity(response.data?.RequestUniversity || [])
+          }
+          if(leadresponse?.data){
+            setLeads(leadresponse.data)
+          }
+        } catch (error) {
+          console.error('Error fetching center details:', error);
+        }
+      };
+  
+      fetchDetails();
+    }, [center, fetchCenterDetailsFromUser]);
   return (
     <div className="p-6 space-y-6 bg-teal-50">
       {/* Top Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard 
-          title="Today's Moneys"
-          value="$53,000"
-          change="+55%"
+          title="University"
+          value={universities?.length}
+        
           icon={<Wallet size={20} />}
           positive
         />
         <StatCard 
-          title="Today's Users"
-          value="2,300"
+          title="Request University"
+          value={requestUniversity?.length}
           change="+5%"
           icon={<Users size={20} />}
           positive
         />
         <StatCard 
-          title="New Clients"
-          value="+3,020"
+          title="Total Lead"
+          value={leads?.length}
           change="-14%"
           icon={<Globe size={20} />}
           positive={false}
         />
         <StatCard 
-          title="Total Sales"
-          value="$173,000"
+          title="Total Admissions"
+          value="0"
           change="+8%"
           icon={<BarChart size={20} />}
           positive
