@@ -131,6 +131,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         headers: {
           'Content-Type': 'application/json',
         },
+      
       }),
     })
   }),

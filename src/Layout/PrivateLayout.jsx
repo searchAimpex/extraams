@@ -36,6 +36,7 @@ export default function PrivateLayout() {
     // Fetch popup data
     const fetchPopUpData = async () => {
       const response = await FetchPopUp();
+      console.log("response",response)
       if (response?.data) {
         setPopupMessages(response.data);  // Assuming response.data is an array of popup messages
       }
@@ -78,6 +79,12 @@ export default function PrivateLayout() {
         { label: 'Online Admission', path: '/user/viewonline' },
       ],
     },
+    {
+      label: 'My Commission',
+      icon: User2Icon,
+      path: '/user/commission',
+    
+    }
   ];
 
   const toggleSubmenu = (index) => {
@@ -85,7 +92,7 @@ export default function PrivateLayout() {
   };
 
   const handleNextPopup = () => {
-    if (currentPopupIndex < popupMessages.length - 1) {
+    if (currentPopupIndex < popupMessages?.length - 1) {
       setCurrentPopupIndex(currentPopupIndex + 1);
     }
   };
@@ -93,7 +100,7 @@ export default function PrivateLayout() {
   const handleClosePopup = () => {
     setPopupMessages([]);  // Clear messages after closing
   };
-
+  console.log("fix",popupMessages)
   return (
     <div className="flex min-h-screen bg-teal-50">
       {/* Sidebar */}
@@ -120,7 +127,7 @@ export default function PrivateLayout() {
                       <item.icon size={20} />
                     </div>
                     {sidebarOpen && <span className="ml-3">{item.label}</span>}
-                    {item.subMenu.length > 0 && (
+                    {item?.subMenu?.length > 0 && (
                       <div className="ml-auto">
                         {submenuOpen === index ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                       </div>

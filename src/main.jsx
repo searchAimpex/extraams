@@ -22,6 +22,7 @@ import ViewOnlineAdmission from './Screen/ViewOnlineAdmission.jsx'
 import CreateAdmission from './Screen/CreateAdmission.jsx'
 import ViewAdmission from './Screen/ViewAdmission.jsx'
 import Profile from './Screen/Profile.jsx'
+import MyCommission from './Screen/MyCommission.jsx'
 
 
 const router = createBrowserRouter(
@@ -43,9 +44,8 @@ const router = createBrowserRouter(
               <Route path = '/user/apply' element = {< CreateAdmission />} />
               <Route path = '/user/applyview' element={< ViewAdmission/>} />
               <Route path = '/user/profile' element = {< Profile />} />
-
-
-            </Route>
+              <Route path = '/user/commission' element = {<MyCommission /> } />
+             </Route>
 
 
     </Route>
