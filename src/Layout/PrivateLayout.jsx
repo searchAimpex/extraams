@@ -31,6 +31,7 @@ export default function PrivateLayout() {
     // Fetch popup data
     const fetchPopUpData = async () => {
       const response = await FetchPopUp();
+      console.log("is this fit",response)
       if (response?.data) {
         setPopupMessages(response.data);  // Assuming response.data is an array of popup messages
       }
@@ -110,9 +111,42 @@ export default function PrivateLayout() {
    
    
   ];
+  console.log("----->",popupMessages)
+  console.log("----->1",popupMessages)
+
 
   return (
     <div className="flex min-h-screen bg-teal-50">
+      {/* Popup Viewer Modal */}
+{popupMessages.length > 0 && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
+      <div className="text-gray-700" dangerouslySetInnerHTML={{ __html: popupMessages[currentPopupIndex]?.message }} />
+      
+      <div className="mt-4 flex justify-between">
+        <button 
+          onClick={handleClosePopup} 
+          className="px-4 py-2 bg-gray-300 rounded-lg">
+          Close
+        </button>
+        
+        {currentPopupIndex < popupMessages.length - 1 ? (
+          <button 
+            onClick={handleNextPopup} 
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+            Next
+          </button>
+        ) : (
+          <button 
+            onClick={handleClosePopup} 
+            className="px-4 py-2 bg-green-500 text-white rounded-lg">
+            Done
+          </button>
+        )}
+      </div>
+    </div>
+  </div>
+)}
       {/* Sidebar */}
       <div className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white shadow-lg transition-all duration-300`}>
         <div className="flex items-center p-4 border-b border-gray-100">
