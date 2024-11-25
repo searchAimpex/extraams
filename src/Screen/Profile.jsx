@@ -55,7 +55,7 @@ export default function Profile() {
         OwnerName,
         OwnerFatherName,
         email,
-        contactNumber,
+        ContactNumber,
         address,
         city,
         state,
@@ -65,9 +65,10 @@ export default function Profile() {
         BackAdhar,
         PanCard,
         VistOffice,
-        WhatappNumber
+        WhatappNumber,
+        CenterCode,
     } = centerDetails;
-
+    console.log('fiux',centerDetails)
     return (
         <div className="max-w-6xl mx-auto p-4 animate-fade-in">
             <h1 className="text-4xl font-bold mb-6">{InstitutionName} - Profile</h1>
@@ -83,7 +84,7 @@ export default function Profile() {
                     <h2 className="text-2xl font-semibold mb-2">{OwnerName}</h2>
                     <p className="text-sm text-gray-600">Owner's Father: {OwnerFatherName}</p>
                     <p className="text-sm text-gray-600">Email: {email}</p>
-                    <p className="text-sm text-gray-600">Contact: {contactNumber}</p>
+                    <p className="text-sm text-gray-600">Contact: {ContactNumber}</p>
                 </div>
 
                 {/* Center Details Section */}
@@ -91,14 +92,14 @@ export default function Profile() {
                     <h3 className="text-xl font-semibold mb-4">Center Details</h3>
                     <p><strong>Address:</strong> {address}, {city}, {state} - {zipCode}</p>
                     <p><strong>WhatsApp:</strong> {WhatappNumber}</p>
-                    <p><strong>Visit Office:</strong> <a href={VistOffice} className="text-blue-500" target="_blank" rel="noopener noreferrer">Click here</a></p>
+                    <p><strong>Center Code:</strong>{CenterCode} </p>
                 </div>
             </div>
 
             {/* Documents Section */}
             <div className="mt-8 bg-white shadow-lg p-4 rounded-lg">
                 <h3 className="text-xl font-semibold mb-4">Documents</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-gray-100 p-4 rounded-lg transform transition-all hover:scale-105 hover:shadow-2xl">
                         <img src={FrontAdhar} alt="Front Adhar" className="h-36 w-full object-cover rounded-lg mb-2" />
                         <p className="text-sm text-gray-600">Front Adhar</p>
@@ -110,6 +111,10 @@ export default function Profile() {
                     <div className="bg-gray-100 p-4 rounded-lg transform transition-all hover:scale-105 hover:shadow-2xl">
                         <img src={PanCard} alt="Pan Card" className="h-36 w-full object-cover rounded-lg mb-2" />
                         <p className="text-sm text-gray-600">Pan Card</p>
+                    </div>
+                    <div className="bg-gray-100 p-4 rounded-lg transform transition-all hover:scale-105 hover:shadow-2xl">
+                        <img src={VistOffice} alt="Pan Card" className="h-36 w-full object-cover rounded-lg mb-2" />
+                        <p className="text-sm text-gray-600">Visiting Card</p>
                     </div>
                 </div>
             </div>
@@ -133,11 +138,7 @@ export default function Profile() {
                 </button>
             </div>
 
-            {/* Contact Buttons */}
-            <div className="mt-6 flex space-x-4">
-                <a href={`mailto:${email}`} className="bg-blue-500 text-white py-2 px-4 rounded-lg shadow hover:bg-blue-600 transition">Email Center</a>
-                <a href={`tel:${contactNumber}`} className="bg-green-500 text-white py-2 px-4 rounded-lg shadow hover:bg-green-600 transition">Call Center</a>
-            </div>
+       
         </div>
     );
 }

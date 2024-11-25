@@ -34,7 +34,7 @@ export default function UniversityView() {
           Universities
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {isSuccess && universities?.AssignUniversity?.length > 0 ? (
             universities?.AssignUniversity?.map((university, index) => (
               <motion.div
@@ -50,7 +50,7 @@ export default function UniversityView() {
                   <img
                     src={university?.university?.UniLogo || 'https://via.placeholder.com/150'}
                     alt={university?.university?.univserityShortName}
-                    className="w-full h-[120px] object-contained group-hover:scale-105 transition-transform duration-500"
+                    className="w-[120px] h-[60px] object-contained group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-2 text-center">
@@ -77,7 +77,7 @@ export default function UniversityView() {
           We Are Also Working With
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {isSuccess && universities?.RequestUniversity?.length > 0 ? (
             universities?.RequestUniversity?.map((university, index) => (
               <motion.div
@@ -93,7 +93,7 @@ export default function UniversityView() {
                   <img
                     src={university?.university?.UniLogo || 'https://via.placeholder.com/150'}
                     alt={university?.university?.univserityShortName}
-                    className="w-[120px] h-[120px] object-contained group-hover:scale-105 transition-transform duration-500"
+                    className="w-[60px] h-[30px] object-contained group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-2 text-center">

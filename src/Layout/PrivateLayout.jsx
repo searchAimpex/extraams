@@ -12,15 +12,32 @@ import { useFetchPopUpMutation } from '../slices/adminApiSlice';
 
 export default function PrivateLayout() {
   const navigate = useNavigate();
-  const [submenuOpen, setSubmenuOpen] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const dispatch = useDispatch();
   const [logoutApi] = useLogoutMutation();
   const [FetchPopUp] = useFetchPopUpMutation();
-  const dispatch = useDispatch();
 
-  // State to manage the popup visibility and message
+  // State to control sidebar and submenu
+  const [submenuOpen, setSubmenuOpen] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  
+  // State to manage popup messages
   const [popupMessages, setPopupMessages] = useState([]);
   const [currentPopupIndex, setCurrentPopupIndex] = useState(0);
+
+  // State to control the sign-out confirmation modal
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
+
+  useEffect(() => {
+    // Fetch popup data
+    const fetchPopUpData = async () => {
+      const response = await FetchPopUp();
+      if (response?.data) {
+        setPopupMessages(response.data);  // Assuming response.data is an array of popup messages
+      }
+    };
+
+    fetchPopUpData();
+  }, [FetchPopUp]);
 
   const handleSignOut = async () => {
     try {
@@ -32,63 +49,12 @@ export default function PrivateLayout() {
     }
   };
 
-  useEffect(() => {
-    // Fetch popup data
-    const fetchPopUpData = async () => {
-      const response = await FetchPopUp();
-      console.log("response",response)
-      if (response?.data) {
-        setPopupMessages(response.data);  // Assuming response.data is an array of popup messages
-      }
-    };
-
-    fetchPopUpData();
-  }, [FetchPopUp]);
-
-  const menuItems = [
-    { label: 'Dashboard', icon: Home, path: '/user/dashboard', subMenu: [] },
-    { label: 'University', icon: BarChart2, path: '/user/university', subMenu: [] },
-    { label: 'View Fees', icon: CreditCard, path: '/user/fees', subMenu: [] },
-    { label: 'Important Download', icon: Settings, path: '/user/download', subMenu: [] },
-    { label: 'University Materials', icon: Settings, path: '/user/material', subMenu: [] },
-    {
-      label: 'Payment',
-      icon: CreditCard,
-      path: '/user/viewtransaction',
-      subMenu: [
-        { label: 'View Transactions', path: '/user/viewtransaction' },
-        { label: 'Create Transaction', path: '/user/createtransaction' },
-      ],
-    },
-    {
-      label: 'Admission',
-      icon: CreditCard,
-      path: '/user/applyview',
-      subMenu: [
-        { label: 'View', path: '/user/applyview' },
-        { label: 'Apply', path: '/user/apply' },
-      ],
-    },
-    {
-      label: 'Online',
-      icon: CreditCard,
-      path: '/user/viewlead',
-      subMenu: [
-        { label: 'View Lead', path: '/user/viewlead' },
-        { label: 'Apply Admission', path: '/user/applyonline' },
-        { label: 'Online Admission', path: '/user/viewonline' },
-      ],
-    },
-    {
-      label: 'My Commission',
-      icon: User2Icon,
-      path: '/user/commission',
-    
-    }
-  ];
-
   const toggleSubmenu = (index) => {
     setSubmenuOpen(submenuOpen === index ? null : index);
+  };
+
+  const confirmSignOut = () => {
+    setShowSignOutModal(true);  // Show the confirmation modal
   };
 
   const handleNextPopup = () => {
@@ -100,7 +66,51 @@ export default function PrivateLayout() {
   const handleClosePopup = () => {
     setPopupMessages([]);  // Clear messages after closing
   };
-  console.log("fix",popupMessages)
+
+  const menuItems = [
+    { label: 'Dashboard', icon: Home, path: '/user/dashboard', subMenu: [] },
+    { label: 'University', icon: BarChart2, path: '/user/university', subMenu: [] },
+    { label: 'View Fees', icon: CreditCard, path: '/user/fees', subMenu: [] },
+    {
+      label: 'R/D Admission',
+      icon: CreditCard,
+      path: '/user/applyview',
+      subMenu: [
+        { label: 'View', path: '/user/applyview' },
+        { label: 'Apply', path: '/user/apply' },
+      ],
+    },
+    {
+      label: 'Online Admission',
+      icon: CreditCard,
+      path: '/user/viewlead',
+      subMenu: [
+        { label: 'View Lead', path: '/user/viewlead' },
+        { label: 'Apply Admission', path: '/user/applyonline' },
+        { label: 'Online Admission', path: '/user/viewonline' },
+      ],
+    },
+    {
+      label: 'My Commission List',
+      icon: User2Icon,
+      path: '/user/commission',
+    },
+    { label: 'University Materials', icon: Settings, path: '/user/material', subMenu: [] },
+    { label: 'Important Download', icon: Settings, path: '/user/download', subMenu: [] },
+
+    {
+      label: 'Transaction',
+      icon: CreditCard,
+      path: '/user/viewtransaction',
+      subMenu: [
+        { label: 'View Transactions', path: '/user/viewtransaction' },
+        { label: 'Create Transaction', path: '/user/createtransaction' },
+      ],
+    },
+   
+   
+  ];
+
   return (
     <div className="flex min-h-screen bg-teal-50">
       {/* Sidebar */}
@@ -168,7 +178,7 @@ export default function PrivateLayout() {
               <button onClick={() => navigate('/user/profile')}>
                 <User2Icon size={20} />
               </button>
-              <button onClick={handleSignOut} className="p-2 rounded-lg hover:bg-gray-100">
+              <button onClick={confirmSignOut} className="p-2 rounded-lg hover:bg-gray-100">
                 <PowerOff size={20} />
               </button>
             </div>
@@ -179,26 +189,24 @@ export default function PrivateLayout() {
         </main>
       </div>
 
-      {/* Popup Modal */}
-      {popupMessages.length > 0 && currentPopupIndex < popupMessages.length && (
+      {/* Sign-out Confirmation Modal */}
+      {showSignOutModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg max-w-lg w-full">
-            <div
-              className="text-gray-600"
-              dangerouslySetInnerHTML={{ __html: popupMessages[currentPopupIndex].message }}
-            />
-            <div className="mt-4 flex justify-between">
+          <div className="bg-white p-6 rounded-lg max-w-sm w-full">
+            <h2 className="text-lg font-semibold text-gray-700">Confirm Sign Out</h2>
+            <p className="mt-2 text-gray-600">Are you sure you want to sign out?</p>
+            <div className="mt-4 flex justify-end space-x-4">
               <button
-                onClick={handleNextPopup}
-                className="px-4 py-2 bg-teal-500 text-white rounded-lg"
+                onClick={() => setShowSignOutModal(false)}
+                className="px-4 py-2 bg-gray-300 rounded-lg"
               >
-                Next
+                Cancel
               </button>
               <button
-                onClick={handleClosePopup}
+                onClick={handleSignOut}
                 className="px-4 py-2 bg-red-500 text-white rounded-lg"
               >
-                Close
+                Sign Out
               </button>
             </div>
           </div>

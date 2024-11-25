@@ -133,6 +133,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
         },
       
       }),
+    }),
+    //carousel/all
+    fetchCrousel:builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/carousel/all`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      
+      }),
     })
   }),
 });
@@ -152,5 +163,6 @@ export const {
   useCreateOnlineApplicationMutation,
   useCreateStudentMutation,
   useFetchStudentByCenterMutation,
-  useFetchPopUpMutation
+  useFetchPopUpMutation,
+  useFetchCrouselMutation,
 } = userApiSlice;

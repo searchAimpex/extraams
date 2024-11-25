@@ -11,7 +11,7 @@ export default function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
-    const [login,{isSuccess}] = useLoginMutation()
+    const [login,{isSuccess,isError}] = useLoginMutation()
   useEffect(() => {
     if (isSuccess) {
         toast.success("Login success!")
@@ -20,7 +20,10 @@ export default function LoginScreen() {
     if(userInfo?.userType !== 'frenchise'){
       toast.error("Unautherize access")
     }
-  }, [navigate, isSuccess]);
+    if(isError){
+      toast.error("Error",isError)
+    }
+  }, [navigate, isSuccess,isError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
