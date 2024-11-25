@@ -77,8 +77,8 @@ export default function PrivateLayout() {
       icon: CreditCard,
       path: '/user/applyview',
       subMenu: [
-        { label: 'View', path: '/user/applyview' },
-        { label: 'Apply', path: '/user/apply' },
+        { label: 'View Admission', path: '/user/applyview' },
+        { label: 'Apply Admission', path: '/user/apply' },
       ],
     },
     {
@@ -86,7 +86,7 @@ export default function PrivateLayout() {
       icon: CreditCard,
       path: '/user/viewlead',
       subMenu: [
-        { label: 'View Lead', path: '/user/viewlead' },
+        { label: 'Genrate Lead', path: '/user/viewlead' },
         { label: 'Apply Admission', path: '/user/applyonline' },
         { label: 'Online Admission', path: '/user/viewonline' },
       ],
