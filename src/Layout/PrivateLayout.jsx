@@ -70,15 +70,16 @@ export default function PrivateLayout() {
 
   const menuItems = [
     { label: 'Dashboard', icon: Home, path: '/user/dashboard', subMenu: [] },
-    { label: 'University', icon: BarChart2, path: '/user/university', subMenu: [] },
+    { label: 'View University', icon: BarChart2, path: '/user/university', subMenu: [] },
     { label: 'View Fees', icon: CreditCard, path: '/user/fees', subMenu: [] },
     {
       label: 'R/D Admission',
       icon: CreditCard,
       path: '/user/applyview',
       subMenu: [
-        { label: 'View Admission', path: '/user/applyview' },
         { label: 'Apply Admission', path: '/user/apply' },
+
+        { label: 'View Admission', path: '/user/applyview' },
       ],
     },
     {
