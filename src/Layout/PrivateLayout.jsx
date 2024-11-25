@@ -98,6 +98,8 @@ export default function PrivateLayout() {
     },
     { label: 'University Materials', icon: Settings, path: '/user/material', subMenu: [] },
     { label: 'Important Download', icon: Settings, path: '/user/download', subMenu: [] },
+    { label: 'Recived Payment', icon: Settings, path: '/user/recived', subMenu: [] },
+
 
     {
       label: 'Transaction',
@@ -111,8 +113,7 @@ export default function PrivateLayout() {
    
    
   ];
-  console.log("----->",popupMessages)
-  console.log("----->1",popupMessages)
+
 
 
   return (

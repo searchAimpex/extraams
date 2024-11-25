@@ -144,7 +144,31 @@ export const userApiSlice = apiSlice.injectEndpoints({
         },
       
       }),
-    })
+    }),
+    // **  /center/getcommission/${data}
+    fetchCenterCommission: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/center/getcommission/${data}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      
+      }),
+    }),
+    // **  /center/getcommission/${data}
+    fetchCenterDetails: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/center/getdetails/${data}`,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      
+      }),
+    }),
+    // **  /center/getcommission/${data}
+    
   }),
 });
 
@@ -165,4 +189,5 @@ export const {
   useFetchStudentByCenterMutation,
   useFetchPopUpMutation,
   useFetchCrouselMutation,
+  useFetchCenterCommissionMutation
 } = userApiSlice;
