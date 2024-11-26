@@ -187,7 +187,7 @@ export default function CreateAdmission() {
         setStudentPhone(value);
     
         try {
-          const response = await fetch('/api/admin/phonecheck', {
+          const response = await fetch('https://admissionportals.in/api/admin/phonecheck', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ export default function CreateAdmission() {
         setStudentEmail(value);
     
         try {
-          const response = await fetch('/api/admin/emailcheck', {
+          const response = await fetch('https://admissionportals.in/api/admin/emailcheck', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -227,7 +227,7 @@ export default function CreateAdmission() {
         setAdharNumber(value);
     
         try {
-          const response = await fetch('/api/admin/adharcheck', {
+          const response = await fetch('https://admissionportals.in/api/admin/adharcheck', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -248,16 +248,24 @@ export default function CreateAdmission() {
     const handleUniversitySelection = (event) => {
         setSelectedUniversity(event.target.value)
     }
-    const [type,setType] = useState()
-    const handleType = (event) =>{
-        console.log("event",event)
-        setType(event.target.value)
-    }
-    const [year,setYear] = useState()
-    const handleYear = (event) =>{
-        console.log("event",event)
-        setYear(event.target.value)
-    }
+    const [selectedYear, setSelectedYear] = useState('');
+    const [selectedType, setSelectedType] = useState('');
+    const handleType = (event) => {
+        setSelectedType(event.target.value); // Optional: If manual change is needed
+      };
+    const handleYear = (event) => {
+        const year = event.target.value;
+        setSelectedYear(year);
+    
+        // Automatically set type based on the year
+        if (year === '1') {
+          setSelectedType('Fresh');
+        } else if (['2', '3', '4'].includes(year)) {
+          setSelectedType('RR');
+        } else {
+          setSelectedType(''); // Reset if no valid year is selected
+        }
+      };
     const handleSpecialization = (event) =>{
         console.log("event",event)
         setSelectedSpecialization(event.target.value)
@@ -312,7 +320,8 @@ export default function CreateAdmission() {
             setSession([])
             setCourse([])
         }
-    },[])
+        navigate('/user/applyview')
+    },[isSuccess])
     useEffect(()=>{
         const fetchDetails =  async () => {
             try { 
@@ -388,7 +397,7 @@ export default function CreateAdmission() {
             session:selectedSession,
             course:selectedCourse,
             specialization:selectedSpecialization,
-            studentType:type,
+            studentType:selectedType,
             center: center,
             StudentName,
             FatherName,
@@ -462,18 +471,23 @@ export default function CreateAdmission() {
             <div className=''>
                 <h2 className='text-2xl text-black font-bold'>Applying For</h2>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 sm:p-6'>
-                    <div className='flex flex-col'>
-                        <label className='font-bold text-black'>University:</label>
-                        <select
+                <div className='flex flex-col'>
+                    <label className='font-bold text-black'>University:</label>
+                    <select
                         onChange={handleUniversitySelection}
                         required
                         className="peer text-black h-full w-full border-b border-white-200 bg-teal-100 pt-4 pb-1.5 text-sm font-normal text-black-700 outline-none transition-all placeholder-shown:border-white-200 focus:border-gray-900 disabled:border-0 disabled:bg-white-50"
-                        >
+                    >
                         <option className='font-bold' value="">Select a University</option>
-                        {universities?.map((uni) => (
-                            <option className='font-bold' key={uni._id} value={uni?.university._id}>{uni?.university.universityName}</option>
-                        ))}
-                        </select>
+                        {universities
+                        ?.filter((uni) => uni?.university?.vertical !== "ONLINE")  // Exclude ONLINE universities
+                        .map((uni) => (
+                            <option className='font-bold' key={uni._id} value={uni?.university._id}>
+                            {uni?.university.universityName} - {uni?.university?.vertical}
+                            </option>
+                        ))
+                        }
+                    </select>
                     </div>
                     <div className='flex flex-col'>
                         <label className='font-bold text-black'>Session:</label>
@@ -519,35 +533,30 @@ export default function CreateAdmission() {
                         </div>
                         )}
                     <div className='flex flex-col'>
-                        <label className='font-bold text-black'>Year:</label>
+                         <label className='font-bold text-black'>Year:</label>
                         <select
                             onChange={handleYear}
+                            value={selectedYear}  // Control the value of the year dropdown
                             className="peer text-black h-full w-full border-b border-white-200 bg-teal-100 pt-4 pb-1.5 text-sm font-normal text-black-700 outline-none transition-all placeholder-shown:border-white-200 focus:border-gray-900 disabled:border-0 disabled:bg-white-50"
-                            >
-                                <option className="font-bold" value=""> Select Year</option>
-                          
-                                <option className="font-bold"  value="1">1</option>
-                                <option className="font-bold"  value="2">2</option>
-                                <option className="font-bold"  value="3">3</option>
-                                <option className="font-bold"  value="4">4</option>
-                                <option className="font-bold"  value="5">5</option>
-
-
-                        
-                            </select>
+                        >
+                            <option className="font-bold" value="">Select Year</option>
+                            <option className="font-bold" value="1">1</option>
+                            <option className="font-bold" value="2">2</option>
+                            <option className="font-bold" value="3">3</option>
+                            <option className="font-bold" value="4">4</option>
+                        </select>
                     </div>
                     <div className='flex flex-col'>
-                        <label className='font-bold text-black'>Type:</label>
-                        <select
-                            onChange={handleType}
-                            className="peer text-black h-full w-full border-b border-white-200 bg-teal-100 pt-4 pb-1.5 text-sm font-normal text-black-700 outline-none transition-all placeholder-shown:border-white-200 focus:border-gray-900 disabled:border-0 disabled:bg-white-50"
+                            <label className='font-bold text-black'>Type:</label>
+                            <select
+                                onChange={handleType}
+                                value={selectedType}  // Control the value of the type dropdown
+                                className="peer text-black h-full w-full border-b border-white-200 bg-teal-100 pt-4 pb-1.5 text-sm font-normal text-black-700 outline-none transition-all placeholder-shown:border-white-200 focus:border-gray-900 disabled:border-0 disabled:bg-white-50"
+                                disabled  // Make it non-editable based on selection
                             >
-                                <option className="font-bold" value=""> Select Admission Type</option>
-                          
-                                <option className="font-bold"  value="Fresh">FRESH</option>
-                                <option className="font-bold"  value="RR">RR</option>
-
-                        
+                                <option className="font-bold" value="">Select Admission Type</option>
+                                <option className="font-bold" value="Fresh">FRESH</option>
+                                <option className="font-bold" value="RR">RR</option>
                             </select>
                     </div>
                     </div>

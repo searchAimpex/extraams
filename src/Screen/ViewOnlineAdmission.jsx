@@ -68,6 +68,7 @@ export default function ViewOnlineAdmission() {
           <thead>
             <tr className="bg-gray-100">
               <th className="border px-4 py-2 text-left">Ref No.</th>
+              <th className="border px-4 py-2 text-left">Payment Status</th> {/* New column */}
               <th className="border px-4 py-2 text-left">Name</th>
               <th className="border px-4 py-2 text-left">Email</th>
               <th className="border px-4 py-2 text-left">Course</th>
@@ -75,6 +76,7 @@ export default function ViewOnlineAdmission() {
               <th className="border px-4 py-2 text-left">Center</th>
               <th className="border px-4 py-2 text-left">Application Status</th>
               <th className="border px-4 py-2 text-left">Document Status</th>
+              <th className="border px-4 py-2 text-left">Created At</th> {/* New column */}
             </tr>
           </thead>
           <tbody>
@@ -85,6 +87,7 @@ export default function ViewOnlineAdmission() {
                   className="hover:bg-gray-50 transition-colors"
                 >
                   <td className="border px-4 py-2">{application.Unicode}</td>
+                  <td className="border px-4 py-2">{application.paymentStatus || 'Pending'}</td> {/* New column */}
                   <td className="border px-4 py-2">{application.name}</td>
                   <td className="border px-4 py-2">{application.email}</td>
                   <td className="border px-4 py-2">{application.course?.name || 'N/A'}</td>
@@ -92,11 +95,14 @@ export default function ViewOnlineAdmission() {
                   <td className="border px-4 py-2">{application.center?.InsitutionName || 'N/A'}</td>
                   <td className="border px-4 py-2">{application.applicationStatus}</td>
                   <td className="border px-4 py-2">{application.docStatus}</td>
+                  <td className="border px-4 py-2">
+                    {new Date(application.createdAt).toLocaleDateString() || 'N/A'} {/* New column */}
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="border px-4 py-2 text-center">
+                <td colSpan="10" className="border px-4 py-2 text-center">
                   No applications available
                 </td>
               </tr>

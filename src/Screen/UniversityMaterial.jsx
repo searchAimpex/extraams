@@ -45,6 +45,7 @@ export default function UniversityMaterial() {
             console.error('Error fetching university documents:', error);
         }
     };
+    console.log("download",documents)
 
     return (
         <div className="p-6 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 min-h-screen">
@@ -69,7 +70,8 @@ export default function UniversityMaterial() {
                     <option value="">-- Select University --</option>
                     {universities.map((university) => (
                         <option key={university.id} value={university?.university?._id}>
-                            {university?.university?.universityName}
+                            {university?.university?.universityName} -{university?.university?.vertical}
+
                         </option>
                     ))}
                 </select>
@@ -86,7 +88,7 @@ export default function UniversityMaterial() {
                             {doc.title || `Document ${index + 1}`}
                         </h2>
                         <a
-                            href={doc.DocURL}
+                            href={doc.docUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="block px-4 py-2 bg-green-500 text-white text-center rounded-lg font-medium hover:bg-green-600"
