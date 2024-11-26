@@ -95,6 +95,8 @@ export default function ViewOnlineAdmission() {
                   <td className="border px-4 py-2">{application.center?.InsitutionName || 'N/A'}</td>
                   <td className="border px-4 py-2">{application.applicationStatus}</td>
                   <td className="border px-4 py-2">{application.docStatus}</td>
+                  <td className="border px-4 py-2">{application.createdAt}</td>
+
                   <td className="border px-4 py-2">
                     {new Date(application.createdAt).toLocaleDateString() || 'N/A'} {/* New column */}
                   </td>

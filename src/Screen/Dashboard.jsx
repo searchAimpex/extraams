@@ -69,16 +69,9 @@ const Dashboard = () => {
 
   return (
     <div className="p-6 space-y-6 bg-teal-50">
-      {/* Top Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <StatCard title="University" value={universities?.length} icon={<Wallet size={20} />} />
-        <StatCard title="Request University" value={requestUniversity?.length} icon={<Users size={20} />} />
-        <StatCard title="Total Lead" value={leads?.length} icon={<Globe size={20} />} />
-        <StatCard title="Total Admissions" value="0" icon={<BarChart size={20} />} />
-      </div>
-
+    
       {/* Carousel */}
-      <div className="relative w-full h-[470px] overflow-hidden rounded-lg">
+      <div className="relative w-full h-[600px] overflow-hidden rounded-lg">
         {crousel?.map((item, index) => (
           <div
             key={index}
@@ -108,6 +101,14 @@ const Dashboard = () => {
           ❯
         </button>
       </div>
+        {/* Top Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <StatCard title="University" value={universities?.length} icon={<Wallet size={20} />} />
+        <StatCard title="Request University" value={requestUniversity?.length} icon={<Users size={20} />} />
+        <StatCard title="Total Lead" value={leads?.length} icon={<Globe size={20} />} />
+        <StatCard title="Total Admissions" value="0" icon={<BarChart size={20} />} />
+      </div>
+
     </div>
   );
 };
