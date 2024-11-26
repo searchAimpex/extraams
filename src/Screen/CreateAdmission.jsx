@@ -320,7 +320,6 @@ export default function CreateAdmission() {
             setSession([])
             setCourse([])
         }
-        navigate('/user/applyview')
     },[isSuccess])
     useEffect(()=>{
         const fetchDetails =  async () => {
