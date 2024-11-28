@@ -367,8 +367,27 @@ const generatePDF = async (data) => {
                     <td className="border px-4 py-2">{student.unicode}</td>
                     <td className="border px-2 py-2">
                       <div className='flex flex-row space-x-2 items-center'>
-                        <span>{student?.paymentStatus?.toUpperCase()}</span> 
-                        <span className="bg-teal-500 p-2 rounded-xl text-white">Pay</span>
+                        <span 
+                          className={`
+                            px-2 py-1 rounded-lg text-white
+                            ${student?.paymentStatus === 'Pending' ? 'bg-yellow-500' :
+                              student?.paymentStatus === 'Check' ? 'bg-blue-500' :
+                              student?.paymentStatus === 'Paid' ? 'bg-green-500' :
+                              student?.paymentStatus === 'Rejected' ? 'bg-red-500' :
+                              student?.paymentStatus === 'Partial' ? 'bg-orange-500' :
+                              student?.paymentStatus === 'Refunded' ? 'bg-purple-500' :
+                              'bg-gray-500'  // Default color
+                            }
+                          `}
+                        >
+                          {student?.paymentStatus?.toUpperCase()}
+                        </span> 
+
+                        {student?.paymentStatus === 'Pending' && (
+                          <span className="bg-teal-500 p-2 rounded-xl text-white cursor-pointer">
+                            Pay
+                          </span>
+                        )}
                       </div>
                     </td>
                     <td className="border px-4 py-2">
@@ -385,8 +404,30 @@ const generatePDF = async (data) => {
                     <td className="border px-4 py-2">{student.State || 'N/A'}</td>
                     <td className="border px-4 py-2">{student.enrollmentNo || 'N/A'}</td>
                     <td className="border px-4 py-2">{student.rollNo || 'N/A'}</td>
-                    <td className="border px-4 py-2">{student.applicationStatus.toUpperCase() || 'N/A'}</td>
-                    <td className="border px-4 py-2">{student.documentStatus || 'N/A'}</td>
+                    <td className="border px-4 py-2 text-center">
+                      <span className={`
+                        px-2 py-1 rounded-lg text-white 
+                        ${student?.applicationStatus === 'pending' ? 'bg-yellow-500' :
+                          student?.applicationStatus === 'approved' ? 'bg-green-500' :
+                          student?.applicationStatus === 'cancelled' ? 'bg-red-500' :
+                          'bg-gray-500'  // Default color
+                        }`}>
+                        {student.applicationStatus?.toUpperCase() || 'N/A'}
+                      </span>
+                    </td>
+
+                    <td className="border px-4 py-2 text-center">
+                      <span className={`
+                        px-2 py-1 rounded-lg text-white 
+                        ${student?.docStatus === 'pending' ? 'bg-yellow-500' :
+                          student?.docStatus === 'verified' ? 'bg-green-500' :
+                          student?.docStatus === 'revert' ? 'bg-orange-500' :
+                          student?.docStatus === 'recheck' ? 'bg-blue-500' :
+                          'bg-gray-500'  // Default color
+                        }`}>
+                        {student.docStatus?.toUpperCase() || 'N/A'}
+                      </span>
+                    </td>
                     <td className="border py-2">{student.createdAt.split("T")[0] || 'N/A'}</td>
 
                   </tr>
