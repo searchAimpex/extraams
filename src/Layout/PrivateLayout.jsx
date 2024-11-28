@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../slices/userApiSlice';
 import { logout } from '../slices/authSlice';
 import { useFetchPopUpMutation } from '../slices/adminApiSlice';
+import Logo from '/Images/Logo2.jpeg'
 
 export default function PrivateLayout() {
   const navigate = useNavigate();
@@ -151,13 +152,18 @@ export default function PrivateLayout() {
 )}
       {/* Sidebar */}
       <div className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white shadow-lg transition-all duration-300`}>
-        <div className="flex items-center p-4 border-b border-gray-100">
-          <div className="flex items-center">
-            <div className="bg-blue-500 p-2 rounded-lg mr-2">
-              <Menu className="text-white" size={20} />
-            </div>
-            {sidebarOpen && <span className="font-bold text-gray-800">PURITY UI</span>}
-          </div>
+        <div className="flex items-center p-2">
+        <div className="flex items-center justify-center w-full">
+            
+              {sidebarOpen && (
+                <img
+                  src={Logo}
+                  className="object-contain h-[50px]"
+                  alt="Logo"
+                />
+              )}
+</div>
+
         </div>
         <nav className="p-4">
           <ul className="space-y-2">
