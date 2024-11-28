@@ -40,7 +40,7 @@ function Basic({ handleValidation }) {
         setLoading(true); // Set loading to true before performing the search
         try {
             // Check if reference number already exists in the database
-            const exist = await fetch(`http://localhost:3000/api/admin/student/check/unicode/${referenceNumber}`, {
+            const exist = await fetch(`https://admissionportals.in/api/admin/student/check/unicode/${referenceNumber}`, {
                 method: "GET",
                 headers: { 'Content-Type': 'application/json' },
             });

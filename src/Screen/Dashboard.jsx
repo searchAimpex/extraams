@@ -69,7 +69,6 @@ const Dashboard = () => {
 
   return (
     <div className="p-2 space-y-6 bg-teal-50">
-    
       {/* Carousel */}
       <div className="relative w-full h-[570px] overflow-hidden rounded-lg">
         {crousel?.map((item, index) => (

@@ -139,11 +139,14 @@ export default function CreateLead() {
             required
           >
             <option value="">Select a university</option>
-            {universities.map((uni) => (
-              <option key={uni._id} value={uni.university._id}>
-                {uni.university.universityName}
-              </option>
-            ))}
+            {universities
+                        ?.filter((uni) => uni?.university?.vertical === "ONLINE")  // Exclude ONLINE universities
+                        .map((uni) => (
+                            <option className='font-bold' key={uni._id} value={uni?.university._id}>
+                            {uni?.university.universityName} - {uni?.university?.vertical}
+                            </option>
+                        ))
+                        }
           </select>
         </div>
 

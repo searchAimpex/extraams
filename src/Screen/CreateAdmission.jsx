@@ -118,7 +118,6 @@ export default function CreateAdmission() {
     const [StudentNameError, setStudentNameError] = useState("")
     const [FatherNameError, setFatherNameError] = useState("")
     const [MotherNameError, setMotherNameError] = useState("")
-    const [DateOfBirthError, setDateofBirthError] = useState("")
     const [AdharError,setAdharError] = useState("")
     const [StudentPhoneError,setStudentPhoneError] = useState("")
     const [StudentEmailError,setStudentEmailError] = useState("")
@@ -130,6 +129,55 @@ export default function CreateAdmission() {
     const [emailExist,setEmailExist] = useState(false)
     const [adharExist,setAdharExist] = useState(false)
     const [formData, setFormData ] = useState({})
+    const resetForm = () => {
+        setStudentName('');
+        setFatherName('');
+        setMotherName('');
+        setCategory('');
+        setEmploymentStatus('');
+        setMartialStatus('');
+        setReligion('');
+        setNationality('');
+        setAdharNumber('');
+        setHandicapped('');
+      
+        setStudentEmail('');
+        setStudentPhone('');
+        setStudentAlternateNumber('');
+        setParentEmail('');
+        setParentPhone('');
+      
+        setStudentDOB('');
+        setGender('');
+        setAddress('');
+        setCity('');
+        setDistrict('');
+        setState('');
+        setPinCode('');
+        setStudentPhoto('');
+        setStudentAdhar('');
+        setStudentSignature('');
+        setParentSignature('');
+        setOtherDocuments('');
+        setPhoneExists(false);
+      
+        setStudentNameError('');
+        setFatherNameError('');
+        setMotherNameError('');
+        setAdharError('');
+        setStudentPhoneError('');
+        setStudentEmailError('');
+        setCityError('');
+        setDistricError('');
+        setStateError('');
+        setPinCodeError('');
+      
+        setEmailExist(false);
+        setAdharExist(false);
+      
+        setFormData({});
+      };
+      
     const handlePincodeChange = (data) =>{
        
         setPinCode(data.pincode)
@@ -290,14 +338,14 @@ export default function CreateAdmission() {
   }, [center, fetchCenterDetailsFromUser]);
     const [session,setSession] = useState()
     const [course,setCourse] = useState()
-    const [CreateStudent,{isSuccess}] = useCreateStudentMutation()
+    const [CreateStudent,{isSuccess,isLoading}] = useCreateStudentMutation()
     useEffect(()=>{
         if(isSuccess){
             toast.success('Student created successfully')
             setStudentName("")
             setFatherName("")
             setMotherName("")
-            setDateofBirth("")
+            setStudentDOB("")
             setAdharNumber("")
             setStudentEmail("")
             setStudentPhone("")
@@ -310,8 +358,8 @@ export default function CreateAdmission() {
             setSelectedSpecialization("")
             setSelectedSession("")
             setSelectedUniversity("")
-            setType("")
-            setYear("")
+            setSelectedType("")
+            setSelectedYear("")
             setAdharExist(false)
             setEmailExist(false)
             setPhoneExists(false)
@@ -341,7 +389,6 @@ export default function CreateAdmission() {
         setStudentNameError("")
         setFatherNameError("")
         setMotherNameError("")
-        setDateofBirthError("")
         setAdharError("")
         setStudentEmailError("")
         setStudentPhoneError("")
@@ -362,10 +409,7 @@ export default function CreateAdmission() {
             setMotherNameError("Mother Name is required")
             return
         }
-        if(StudentDOB.length === 0){
-            setDateofBirthError("Date of Birth is required")
-            return
-        }
+      
         if (AdharNumber.length === 0 || AdharNumber.length !== 12) {
             setAdharError("Adhar Number is required and must be 12 digits")
             return
@@ -608,7 +652,6 @@ export default function CreateAdmission() {
                         className="peer h-full w-full border-b  border-black bg-teal-100 pt-4 pb-1.5 font-sans text-sm font-normal text-black outline outline-0 transition-all placeholder-shown:border-black focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                         type='Date' 
                        />
-                       {DateOfBirthError && <p className='text-sm text-red-400 font-bold'>{DateOfBirthError}</p> }
                     </div>
                     <div className='flex flex-col'>
                         <label className='font-bold text-black'>Gender</label>
