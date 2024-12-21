@@ -121,7 +121,7 @@ export default function PrivateLayout() {
   return (
     <div className="flex min-h-screen bg-teal-50">
       {/* Popup Viewer Modal */}
-{popupMessages.length > 0 && (
+{popupMessages?.length > 0 && (
   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
     <div className="bg-white p-6 rounded-lg max-w-md w-full relative">
       <div className="text-gray-700" dangerouslySetInnerHTML={{ __html: popupMessages[currentPopupIndex]?.message }} />
